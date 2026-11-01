@@ -1,10 +1,13 @@
 # Planora AI — Your Event. Your Vision. Perfectly Planned.
 
-[![Planora AI](https://img.shields.io/badge/Planora-AI%20Event%20Platform-2C1242?style=for-the-badge)](https://github.com)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-planora--ai--lyart.vercel.app-2C1242?style=for-the-badge&logo=vercel)](https://planora-ai-lyart.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-HarsheenKaur11%2Fplanora--ai-181717?style=for-the-badge&logo=github)](https://github.com/HarsheenKaur11/planora-ai)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2%20App%20Router-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-Custom%20Plum%20%26%20Gold-38BDF8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 [![Prisma ORM](https://img.shields.io/badge/Prisma-SQLite%20%2F%20PostgreSQL-2D3748?style=for-the-badge&logo=prisma)](https://prisma.io)
-[![Google Gemini](https://img.shields.io/badge/Google%20Gemini-1.5%20Flash-4285F4?style=for-the-badge&logo=google)](https://ai.google.dev)
+
+**Live Production Website**: [https://planora-ai-lyart.vercel.app](https://planora-ai-lyart.vercel.app)  
+**GitHub Repository**: [https://github.com/HarsheenKaur11/planora-ai](https://github.com/HarsheenKaur11/planora-ai)
 
 ---
 
