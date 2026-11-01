@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String
+  email       String?  @unique
+  location    String?  @default("New Delhi, India")
+  currency    String   @default("INR")
+  language    String   @default("English")
+  preferences String?  // JSON string for dietary, notification, style preferences
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  events      Event[]
+}
+
+model Event {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name            String
+  eventType       String        // Wedding, Birthday, Anniversary, Corporate, etc.
+  date            DateTime
+  location        String
+  guestCount      Int           @default(50)
+  budget          Float         @default(0)
+  description     String?
+  theme           String?
+  themeDescription String?
+  indoorOutdoor   String?       @default("Flexible")
+  culturalPref    String?
+  dietaryPref     String?
+  isDemo          Boolean       @default(false)
+  status          String        @default("planning") // planning, confirmed, completed, cancelled
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  expenses        Expense[]
+  vendors         Vendor[]
+  tasks           Task[]
+  timelineItems   Timeline[]
+  ideas           Idea[]
+  chatMessages    ChatMessage[]
+
+  @@index([userId])
+}
+
+model Expense {
+  id              String   @id @default(cuid())
+  eventId         String
+  event           Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  category        String   // Venue, Catering, Decoration, Photography, etc.
+  description     String
+  estimatedAmount Float    @default(0)
+  actualAmount    Float    @default(0)
+  paymentStatus   String   @default("Pending") // Pending, Partially Paid, Paid, Overdue
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([eventId])
+  @@index([category])
+}
+
+model Vendor {
+  id             String   @id @default(cuid())
+  eventId        String
+  event          Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name           String
+  category       String   // Venue, Caterer, Decorator, Photographer, DJ, etc.
+  contactPerson  String?
+  phone          String?
+  email          String?
+  contactDetails String?  // Generic or legacy
+  quotation      Float    @default(0) // Estimated quotation
+  finalQuotation Float?   // Negotiated / final quotation
+  bookingStatus  String   @default("Not contacted") // Not contacted, Contacted, Negotiating, Shortlisted, Booked, Cancelled
+  paymentStatus  String   @default("Unpaid") // Unpaid, Advance Paid, Fully Paid
+  notes          String?
+  rating         Float?   @default(4.8)
+  website        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([eventId])
+  @@index([category])
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  eventId     String
+  event       Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  category    String    @default("General")
+  priority    String    @default("Medium") // High, Medium, Low
+  dueDate     DateTime?
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([eventId])
+  @@index([completed])
+}
+
+model Timeline {
+  id          String   @id @default(cuid())
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  date        DateTime
+  status      String   @default("Upcoming") // Upcoming, In Progress, Completed, Delayed
+  timeOfDay   String?  // e.g. "10:00 AM" or "Morning"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([eventId])
+  @@index([date])
+}
+
+model Idea {
+  id          String   @id @default(cuid())
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  category    String   // Decoration, Theme, Catering, Entertainment, Invitations, etc.
+  title       String
+  description String
+  tags        String?  // JSON string or comma-separated
+  saved       Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([eventId])
+  @@index([category])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  role      String   // user, assistant, system
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([eventId])
+}
